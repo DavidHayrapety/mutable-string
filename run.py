@@ -189,7 +189,7 @@ print('string+"SP"')
 string.__iadd__("SP")
 print(f'{string=}', end='\n\n')
 
-# __reversed__)
+# __reversed__
 print('__reversed__()')
 print('print(string.__reversed__())')
 print(f'{string.__reversed__()=}', end='\n\n')
