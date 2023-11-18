@@ -1,8 +1,11 @@
-class MutableString:
+from collections.abc import MutableSequence
+
+
+class MutableString(MutableSequence, str):
 
     def __init__(self, s):
         if type(s) is not str:
-            raise Exception
+            raise TypeError("Inapproopriate argument type")
         self.string = s
 
     # Magic methods
@@ -28,8 +31,56 @@ class MutableString:
         return self.string
 
     def __add__(self, string):
-        self.string = self.string+string
+        self.string +=str(string)
         return self.string
+
+    # Abstract methods
+
+    def __delitem__(self,index):
+        sample=list(self.string)
+        del sample[index]
+        self.string=''.join(sample)
+
+    def __iadd__(self, string):
+        self.string+=str(string)
+        return self.string
+    
+    def __reversed__(self):
+        return self.string[::-1]
+    
+    def append(self, value):
+        self.string+=value
+        return self.string
+
+    def clear(self):
+        self.string=''
+        return None
+
+    def insert(self, index, value):
+        sample=list(self.string)
+        sample.insert(index, value)
+        self.string=''.join(sample)
+
+    def pop(self, index=-1):
+        sample=list(self.string)
+        value=sample.pop(index)
+        self.string=''.join(sample)
+        return value
+
+    def remove(self, value):
+        self.string=self.string.replace(value,'', 1)
+        return self.string
+    
+    def reverse(self):
+        self.string=self.string[::-1]
+        return self.string
+    
+    def count(self, value):
+        main_len=len(self.string)
+        val_len=len(value)
+        diff_len=main_len-len(self.string.replace(value,''))
+        count=diff_len//val_len
+        return count
 
     # Methods
 
@@ -42,7 +93,7 @@ class MutableString:
         return self.string
 
     def center(self, width, fill=None):
-        self.string = self.string.center(width, fill="")
+        self.string = self.string.center(width, fill)
         return self.string
 
     def upper(self):
@@ -60,25 +111,31 @@ class MutableString:
         return self.string.endswith(string)
 
     def find(self, string, start=None, end=None):
-        return self.string.find(string, start=None, end=None)
+        return self.string.find(string, start, end)
 
     def rfind(self, string, start=None, end=None):
-        return self.string.rfind(string, start=None, end=None)
+        return self.string.rfind(string, start, end)
 
     def index(self, string, start=None, end=None):
-        return self.string.index(self, string, start=None, end=None)
+        return self.string.index(string, start, end)
 
     def rindex(self, string, start=None, end=None):
-        return self.string.rindex(self, string, start=None, end=None)
+        return self.string.rindex(string, start, end)
 
     def split(self, symbol):
         return self.string.split(symbol)
 
-    def replace(self, old, new):
+    def replace(self, old, new, count=None):
+        if count:
+            self.string = self.string.replace(old, new, count)
+            return self.string
         self.string = self.string.replace(old, new)
         return self.string
 
-    def rreplace(self, old, new):
+    def rreplace(self, old, new, count=None):
+        if count:
+            self.string = self.string[::-1].replace(old, new, count)[::-1]
+            return self.string
         self.string = self.string[::-1].replace(old, new)[::-1]
         return self.string
 
@@ -107,26 +164,20 @@ class MutableString:
         return self.string.join(array)
 
     def format(self, * args, ** kwargs):
-        self.string=self.string.format(*args,**kwargs)
+        self.string = self.string.format(*args, **kwargs)
         return self.string
-    
-    def ord(self, c):
-        return ord(c)
-    
-    def chr(self, d):
-        return chr(d)
 
     def count(self, string, start=None, end=None):
-        return self.string.count(string, start=None, end=None)
-    
+        return self.string.count(string, start, end)
+
     def strip(self, c=None):
-        self.string=self.string.strip(c)
+        self.string = self.string.strip(c)
         return self.string
-    
+
     def lstrip(self, c=None):
-        self.string=self.string.lstrip(c)
+        self.string = self.string.lstrip(c)
         return self.string
-    
+
     def rstrip(self, c=None):
-        self.string=self.string.rstrip(c)
+        self.string = self.string.rstrip(c)
         return self.string
