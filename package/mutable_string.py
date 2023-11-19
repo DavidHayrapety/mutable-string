@@ -74,13 +74,9 @@ class MutableString(MutableSequence, str):
     def reverse(self):
         self.string=self.string[::-1]
         return self.string
-    
-    def count(self, value):
-        main_len=len(self.string)
-        val_len=len(value)
-        diff_len=main_len-len(self.string.replace(value,''))
-        count=diff_len//val_len
-        return count
+
+    def count(self, string, start=None, end=None):
+        return self.string.count(string, start, end)
 
     # Methods
 
@@ -166,9 +162,6 @@ class MutableString(MutableSequence, str):
     def format(self, * args, ** kwargs):
         self.string = self.string.format(*args, **kwargs)
         return self.string
-
-    def count(self, string, start=None, end=None):
-        return self.string.count(string, start, end)
 
     def strip(self, c=None):
         self.string = self.string.strip(c)
