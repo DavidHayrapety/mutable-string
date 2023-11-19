@@ -31,8 +31,8 @@ class MutableString(MutableSequence, str):
         return self.string
 
     def __add__(self, string):
-        self.string +=str(string)
-        return self.string
+        sample= self.string + str(string)
+        return sample
 
     # Abstract methods
 
@@ -101,7 +101,7 @@ class MutableString(MutableSequence, str):
         return self.string
 
     def lower(self):
-        self.string = self.string.upper()
+        self.string = self.string.lower()
         return self.string
 
     def startswith(self, string):
